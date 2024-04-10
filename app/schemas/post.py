@@ -1,9 +1,10 @@
 from pydantic import BaseModel;
+from typing import Optional;
 
 
 class PostBase(BaseModel):
    title: str
-   content: str
+   content: Optional[str]= None
    is_published: bool
 
 
