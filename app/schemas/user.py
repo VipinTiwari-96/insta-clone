@@ -12,6 +12,6 @@ class UserCreate(UserBase):
 
 
 class UserResponse(UserBase):
-    user_id: int
+    id: int
     created_at: str
     updated_at: str
