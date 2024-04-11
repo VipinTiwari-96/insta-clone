@@ -9,9 +9,12 @@ def get_users(db: Session):
 
 
 
-def get_user(db: Session, id: int):
+def get_user_by_id(db: Session, id: int):
     return db.query(User).filter(User.id== id).first()
 
+
+def get_user_by_username(db: Session, user_name: str):
+    return db.query(User).filter(User.user_name== user_name).first()
 
 
 def create_user(db: Session, user: UserCreate):

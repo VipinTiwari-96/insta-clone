@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends;
+from fastapi import APIRouter, Depends, HTTPException, status;
 from sqlalchemy.orm import Session;
 # schemas
 from ..schemas.user import UserResponse, UserCreate;
@@ -18,14 +18,26 @@ def get_users(db:Session= Depends(get_db)):
 
 @router.get('/users/{id}', response_model= UserResponse)
 def get_user(id: int, db:Session= Depends(get_db)):
-    return userService.get_user(db, id)
+    db_user= userService.get_user_by_id(db, id)
+    if db_user is None:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail= f'user with id: {id} is not found.')
+    
+    return db_user
 
 
 @router.post('/users', response_model=UserResponse)
 def create_user(user: UserCreate, db:Session= Depends(get_db)):
+    db_user= userService.get_user_by_username(db, user.user_name)
+    if db_user:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail= f'user with username: {user.user_name} already exists')
+    
     return userService.create_user(db, user)
 
 
 @router.delete('/users/{id}', response_model= str)
 def delete_user(id: int, db:Session= Depends(get_db)):
+    db_user= userService.get_user_by_id(db, id)
+    if db_user is None:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail= f'user with id: {id} is not found.')
+    
     return userService.delete_user(db, id)
