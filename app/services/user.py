@@ -1,16 +1,17 @@
-from sqlalchemy.orm import Session;
+from sqlalchemy.orm import Session, joinedload;
 # models
 from ..models import User;
 # schemas
 from ..schemas.user import UserCreate;
 
+
 def get_users(db: Session):
-    return db.query(User).all()
+    return db.query(User).options(joinedload(User.posts)).all()
 
 
 
 def get_user_by_id(db: Session, id: int):
-    return db.query(User).filter(User.id== id).first()
+    return db.query(User).options(joinedload(User.posts)).filter(User.id== id).first()
 
 
 def get_user_by_username(db: Session, user_name: str):
