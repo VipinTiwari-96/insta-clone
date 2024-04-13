@@ -12,6 +12,11 @@ def get_post(db: Session, id: int):
     return db.query(Post).filter(Post.id== id).first()
 
 
+def get_post_by_title(db: Session, title: str):
+    return db.query(Post).filter(Post.title== title).first()
+
+
+
 def create_post(db: Session, post: PostCreate):
     new_post= Post(title= post.title, content= post.content, is_published= post.is_published, owner_id= post.owner_id)
     db.add(new_post)
