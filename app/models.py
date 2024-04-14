@@ -14,7 +14,7 @@ class User(Base):
     updated_at= Column(DateTime(timezone=True), server_default= func.now(), nullable= False, onupdate=func.now())
 
     # relationship
-    posts= relationship('Post', back_populates='owner')
+    posts= relationship('Post', back_populates='owner', cascade='all, delete')
 
 
 
@@ -30,4 +30,4 @@ class Post(Base):
     updated_at= Column(DateTime(timezone=True), server_default= func.now(), nullable= False, onupdate=func.now())
 
     # relationship
-    owner= relationship('User', back_populates='posts')
+    owner= relationship('User', back_populates='posts',)
