@@ -19,7 +19,7 @@ def get_user_by_username(db: Session, user_name: str):
 
 
 def create_user(db: Session, user: UserCreate):
-    new_user= User(user_name= user.user_name, age= user.age)
+    new_user= User(user_name= user.user_name, age= user.age, password= user.password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

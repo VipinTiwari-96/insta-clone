@@ -6,10 +6,8 @@ class UserBase(BaseModel):
     user_name: EmailStr
     age: int
 
-
-
 class UserCreate(UserBase):
-    pass
+    password: str
 
 
 class UserResponse(UserBase):
