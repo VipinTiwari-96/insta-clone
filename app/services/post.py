@@ -3,13 +3,14 @@ from sqlalchemy.orm import Session;
 from ..models import Post;
 # schemas
 from ..schemas.post import PostCreate;
+from ..schemas.user import UserResponse;
 
-def get_posts(db: Session):
-    return db.query(Post).all()
+def get_posts(db: Session, current_user: UserResponse):
+    return db.query(Post).filter(Post.owner_id== current_user.id)
 
 
-def get_post(db: Session, id: int):
-    return db.query(Post).filter(Post.id== id).first()
+def get_post(db: Session, id: int, current_user: UserResponse):
+    return db.query(Post).filter(Post.owner_id==current_user.id).filter(Post.id== id).first()
 
 
 def get_post_by_title(db: Session, title: str):
@@ -17,8 +18,8 @@ def get_post_by_title(db: Session, title: str):
 
 
 
-def create_post(db: Session, post: PostCreate):
-    new_post= Post(title= post.title, content= post.content, is_published= post.is_published, owner_id= post.owner_id)
+def create_post(db: Session, post: PostCreate, current_user: UserResponse):
+    new_post= Post(title= post.title, content= post.content, is_published= post.is_published, owner_id= current_user.id)
     db.add(new_post)
     db.commit()
     db.refresh(new_post)

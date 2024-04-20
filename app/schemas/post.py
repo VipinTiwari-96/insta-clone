@@ -6,7 +6,7 @@ class PostBase(BaseModel):
    title: str
    content: Optional[str]= None
    is_published: bool
-   owner_id: int
+
 
 
 
@@ -16,5 +16,6 @@ class PostCreate(PostBase):
 
 class PostResponse(PostBase):
     id: int
+    owner_id: int
     created_at: datetime
     updated_at: datetime
