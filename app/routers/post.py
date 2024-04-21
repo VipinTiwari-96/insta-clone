@@ -17,13 +17,13 @@ router= APIRouter(
 
 
 @router.get('/posts', response_model= list[PostResponse])
-def get_posts(db:Session= Depends(get_db), current_user:UserResponse= Depends(get_current_user)):
-    return postService.get_posts(db, current_user)
+def get_posts(db:Session= Depends(get_db)):
+    return postService.get_posts(db,)
 
 
 @router.get('/posts/{id}', response_model= PostResponse)
-def get_post(id: int, db:Session= Depends(get_db), current_user:UserResponse= Depends(get_current_user) ):
-    db_post= postService.get_post(db, id, current_user)
+def get_post(id: int, db:Session= Depends(get_db) ):
+    db_post= postService.get_post(db, id,)
     if db_post is None:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail= f'post with id: {id} is not found or not associtated with you.')
         
@@ -41,8 +41,8 @@ def create_post(post: PostCreate, db: Session= Depends(get_db), current_user:Use
 
 @router.delete('/posts/{id}', response_model= str)
 def delete_post(id: int, db: Session= Depends(get_db), current_user:UserResponse= Depends(get_current_user) ):
-    db_post= postService.get_post(db, id, current_user)
+    db_post= postService.get_post(db, id)
     if db_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'post with id: {id} is not found or not associtated with you.')
     
-    return postService.delete_post(db, id)
+    return postService.delete_post(db, id, current_user)

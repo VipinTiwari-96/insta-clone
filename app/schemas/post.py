@@ -1,5 +1,5 @@
 from pydantic import BaseModel;
-from typing import Optional;
+from typing import Optional, Union;
 from datetime import datetime;
 
 class PostBase(BaseModel):
@@ -19,3 +19,8 @@ class PostResponse(PostBase):
     owner_id: int
     created_at: datetime
     updated_at: datetime
+    post_likes: int
+
+
+# class VoteBase(BaseModel):
+#     dir: Union[1,0]
